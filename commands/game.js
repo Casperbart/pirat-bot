@@ -4,7 +4,7 @@ module.exports = {
     description: "Game kommando",
     requireArgs: false,
     usage: "",
-    games: ['http://onemanmobile.github.io/NeptunesFork/', 'https://scratch.mit.edu/projects/365096591/', 'https://editor.p5js.org/dybber/present/VO0hyedes', 'https://scratch.mit.edu/projects/349225004/'],
+    games: ['http://onemanmobile.github.io/NeptunesFork/', 'https://scratch.mit.edu/projects/365096591/', 'https://editor.p5js.org/dybber/present/VO0hyedes', 'https://scratch.mit.edu/projects/349225004/', 'https://scratch.mit.edu/projects/383100525/', 'https://scratch.mit.edu/projects/381003046/'],
     execute(msg, args) {
         const min = 0;
         const max = this.games.length - 1;
