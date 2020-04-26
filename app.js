@@ -40,8 +40,19 @@ client.once('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
+client.on('messageUpdate', (oldMsg, newMsg) => {
+  console.log('Editing message');
+  if(oldMsg.content !== newMsg.content) {
+    processMessage(newMsg);
+  }
+});
+
 client.on('message', msg => {
-  //console.dir(msg);
+  processMessage(msg);
+});
+
+function processMessage(msg) {
+  console.dir(msg);
 
   if(!msg.content.startsWith(prefix) || msg.author.bot) {
     console.log('Message does not contain prefix or is from a bot');
@@ -52,6 +63,12 @@ client.on('message', msg => {
   var args = msg.content.slice(prefix.length).split(' ');
   // Fjerner mellemrum fra vores array
   args = args.filter(el => !isEmpty(el));
+
+  if(!args || args.length <= 0) {
+    console.log('No arguments where provided');
+    msg.reply('Husk at sende en kommando med til PiratBot')
+    return;
+  }
   
   // Først element i array er vores kommando
   // Med shift() fjerner vi kommandoen fra vores array og gemmer den i en variabel
@@ -81,7 +98,7 @@ client.on('message', msg => {
     console.error(error);
     msg.reply('Kunne ikke udføre kommando');
   }
-});
+}
 
 client.login(token);
 
