@@ -5,7 +5,8 @@ var logger = require('morgan');
 const fs = require('fs');
 const { Client, MessageEmbed, Collection } = require('discord.js');
 
-const { prefix } = require('./config.json');
+//const { prefix } = require('./config.json');
+const prefix = process.env.PREFIX;
 token = process.env.TOKEN;
 
 var indexRouter = require('./routes/index');
@@ -59,7 +60,7 @@ function processMessage(msg) {
     return;
   }
   
-  // Fjerner !pirat fra beskeden, og laver et array ned med kommando og argumenter
+  // Fjerner !pirat fra beskeden, og laver et array med kommando og argumenter
   var args = msg.content.slice(prefix.length).split(' ');
   // Fjerner mellemrum fra vores array
   args = args.filter(el => !isEmpty(el));
@@ -82,7 +83,7 @@ function processMessage(msg) {
   }
 
   if(command.requireArgs && !args.length) {
-    let reply = `For at bruge kommando skal du tilføjer argumenter`;
+    let reply = `For at bruge kommando skal du tilføje argumenter`;
 
 		if (command.usage) {
 			reply += `\nEksempel på hvordan kommando skal bruge: \`${prefix} ${command.name} ${command.usage}\``;
