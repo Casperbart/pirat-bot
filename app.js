@@ -56,9 +56,10 @@ client.on('message', msg => {
     msg.react('🥇');
     msg.react('🎁');
   } else if(msg.author.id === '696734539082367076') { // Lukas
-    msg.react('😡')
-  } else if(msg.author.id === '706912985683066941') { // Halfdan
+    msg.react('🤩')
+  } else if(msg.author.id === '694185834789994556') { // Halfdan
     msg.react('☺️')
+    msg.react('😊')
   }
   processMessage(msg);
 });
