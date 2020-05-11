@@ -47,6 +47,9 @@ module.exports = {
                     answer = JSON.stringify(firstResponse.answer);
                     score = firstResponse.score;
 
+                    if(answer.length > 1900) // There is a 2000 character limit on Discord messages
+                        answer = answer.substring(0, 1900);
+
                     msg.channel.send(`${answer}.\n\n Score ${score} 🤖`);
                 } else {
                     msg.channel.send(sorryMsg);
@@ -61,7 +64,5 @@ module.exports = {
           
           req.write(data)
           req.end()
-        
-        //msg.channel.send(exampleEmbed);
     }
 };
