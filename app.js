@@ -4,6 +4,7 @@ var logger = require('morgan');
 
 const fs = require('fs');
 const { Client, MessageEmbed, Collection } = require('discord.js');
+const { StatService } = require('./statService.js');
 
 //const { prefix } = require('./config.json');
 const prefix = process.env.PREFIX;
@@ -66,6 +67,11 @@ client.on('message', msg => {
 
 function processMessage(msg) {
   console.dir(msg);
+
+  if(!msg.author.bot) {
+    console.log("Should process stats");
+    StatService.process(msg);
+  }
 
   if(!msg.content.startsWith(prefix) || msg.author.bot) {
     console.log('Message does not contain prefix or is from a bot');
