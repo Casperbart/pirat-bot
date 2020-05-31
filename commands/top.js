@@ -28,7 +28,7 @@ module.exports = {
                 
                         msg.channel.send(embed)
             } else {
-                msg.channel.send("Top 3 listen findes ikke")
+                msg.channel.send("Top 3 listen findes ikke\nDu kan vælge imellem: emoji, besked, bot og quiz")
             }
             
         } else {
