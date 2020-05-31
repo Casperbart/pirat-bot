@@ -86,6 +86,12 @@ module.exports.StatService = {
         } else {
             return null;
         }
+    },
+    storeQuizScore: async function(user) {
+        const { database } = await client.databases.createIfNotExists({ id: 'PiratBotStats' });
+        const { container } = await database.containers.createIfNotExists({ id: containerID });
+
+        container.items.upsert(user)
     }
 };
 
