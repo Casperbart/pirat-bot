@@ -21,6 +21,7 @@ module.exports = {
                 .addField('Antal Piratbot kommandoer sendt', user.botCommandCount ? `${user.botCommandCount} ⬆️` : 'Har ikke brugt en Piratbot kommando endnu 🥺', true)
                 .addField('Seneste kommando', user.mostRecentCommand ? user.mostRecentCommand : '❌', true)
                 .addField('Tidspunkt for seneste besked', user.latestMessageTimestamp ? moment(user.latestMessageTimestamp).fromNow() : '❌', false)
+                .addField('Quiz highscore', user.quizHighScore ? `${user.quizHighScore} 🏆` : 'Har ikke spillet PiratBot quizzen endnu', false)
 
             msg.channel.send(embed);
         } else {
