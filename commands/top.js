@@ -16,18 +16,23 @@ module.exports = {
             let description= top.description;
             let list = top.list;
 
-            const embed = new Discord.MessageEmbed()
-                    .setTitle("TOP 3 " + title)
-                    .setColor('#6bcdf4')
-                    .addField("#1 🏆🥇", list[0] != null ? `${list[0].username} - Score: ${list[0].score}` : 'No user found', false)
-                    .addField("#2 🥈", list[1] != null ? `${list[1].username} - Score: ${list[1].score}` : 'No user found', false)
-                    .addField("#3 🥉", list[2] != null ? `${list[2].username} - Score: ${list[2].score}` : 'No user found', false)
-                    .setDescription(description)
-                    .setFooter('Piratbotten indsamler data fra alle kanaler');
+            if(list.length > 0) {
+                const embed = new Discord.MessageEmbed()
+                        .setTitle("TOP 3 " + title)
+                        .setColor('#6bcdf4')
+                        .addField("#1 🏆🥇", list[0] != null ? `${list[0].username} - Score: ${list[0].score}` : 'Kan ikke finde bruger', false)
+                        .addField("#2 🥈", list[1] != null ? `${list[1].username} - Score: ${list[1].score}` : 'Kan ikke finde bruger', false)
+                        .addField("#3 🥉", list[2] != null ? `${list[2].username} - Score: ${list[2].score}` : 'Kan ikke finde bruger', false)
+                        .setDescription(description)
+                        .setFooter('Piratbotten indsamler data fra alle kanaler');
+                
+                        msg.channel.send(embed)
+            } else {
+                msg.channel.send("Top 3 listen findes ikke")
+            }
             
-            msg.channel.send(embed)
         } else {
-            msg.channel.send("No users found")
+            msg.channel.send("Kan ikke finde brugere")
         }
     },
     getTopListForArgument(users, args) {
