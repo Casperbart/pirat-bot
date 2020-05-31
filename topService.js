@@ -45,6 +45,11 @@ module.exports.TopService = {
             .map(u => this.userToTopListItem(u, u.botCommandCount))
             .sort((user1, user2) => user2.score - user1.score)
     },
+    topQuizScore: function(users) {
+        return users.filter((u) => u.quizHighScore) 
+            .map(u => this.userToTopListItem(u, u.quizHighScore))
+            .sort((user1, user2) => user2.score - user1.score)
+    },
     userToTopListItem: function(user, score) {
         return {
             username: user.username,
