@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 var moment = require('moment');
 
 const { CosmosClient } = require("@azure/cosmos");
+const { StatService } = require('./statService.js');
 
 const prefix = process.env.PREFIX;
 const connectionString = process.env.COSMOSCONNECTIONSTRING;
@@ -23,6 +24,8 @@ module.exports.QuizService = {
             state: ''
         }
     },
+    gameLength: 2,
+    pointsPerQuestion: 500,
     questions: 
     [
         {
@@ -273,16 +276,55 @@ module.exports.QuizService = {
     endGame: function(game, msg) {
         game.state = 'ended';
         game.endTime = moment();
+        game.points = this.calculateScore(game);
         var embed = this.getEndEmbed(game);
+        this.saveScore(game.points, msg.author.id)
         msg.reply(embed);
+    },
+    saveScore: async function(score, userId) {
+        var user = await StatService.getUser(userId);
+        if(user.quizHighScore) {
+            if(score > user.quizHighScore) {
+                user.quizHighScore = score
+            }
+        } else {
+            user.quizHighScore = score;
+        }
+
+        await StatService.storeQuizScore(user);
+    },
+    calculateScore: function(game) {
+        // Time bonus
+        var timeBonus = 0;
+        let elapsedTime = moment(game.endTime).diff(game.startTime, 'seconds')
+        // If user answers more than five questions correctly they get a time bonus
+        if(game.points >= this.gameLength / 2 * this.pointsPerQuestion) {
+            var rate = 0.0;
+            if(elapsedTime <= 60) {
+                rate = 2.0;
+            } else if (elapsedTime <= 90) {
+                rate = 1.5;
+            } else if (elapsedTime <= 120){
+                rate = 1.0;
+            } else if (elapsedTime <= 120){ 
+                rate = 0.25;
+            } else if (elapsedTime <= 150) {
+                rate = 0.10;
+            } else if (elapsedTime <= 300) {
+                rate = 0.5;
+            }
+            timeBonus = this.pointsPerQuestion * rate;
+        }
+
+        return game.points + timeBonus;
     },
     answerQuestion: function(game, choice, msg) {
         var question = this.getQuestionForId(game.currentQuestion);
         if(question.answer === choice.toLowerCase()) {
-            game.points += 100;
+            game.points += this.pointsPerQuestion;
         }
         game.questionsAnswered.push(game.currentQuestion);
-        if(game.questionsAnswered.length === 10) {
+        if(game.questionsAnswered.length === this.gameLength) {
             this.endGame(game, msg);
         } else {
             var question = this.getNewQuestion(game.questionsAnswered);
