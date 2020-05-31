@@ -59,8 +59,11 @@ module.exports = {
                     top.description = 'Top 3 liste over hvem som har sendt flest kommandoer til PiratBot i Coding Pirates Aalborg Discord serveren'
                     top.list = TopService.topBotCount(users)
                     break;
-                default:
-                    top = []
+                case 'quiz':
+                    top.title = 'Bedste score i PiratBot quizzen'
+                    top.description = 'Top 3 liste over hvem som har fået den bedste score i PiratBot quizzen på Coding Pirates Aalborg Discord serveren'
+                    top.list = TopService.topQuizScore(users)
+                    break;
             }
         }
         return top;
