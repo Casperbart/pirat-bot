@@ -24,7 +24,7 @@ module.exports.QuizService = {
             state: ''
         }
     },
-    gameLength: 2,
+    gameLength: 10,
     pointsPerQuestion: 500,
     questions: 
     [
